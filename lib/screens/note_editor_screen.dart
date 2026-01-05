@@ -121,16 +121,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: !_hasChanges,
-      onPopInvoked: (didPop) async {
-        if (!didPop && _hasChanges) {
-          final shouldPop = await _onWillPop();
-          if (shouldPop && context.mounted) {
-            Navigator.pop(context);
-          }
-        }
-      },
+    return WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.note == null ? 'New Note' : 'Edit Note'),
